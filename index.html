@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>HTML5 Canvas</title>
+    <link rel="icon" href="https://fav.farm/🔥" />
+    <link rel="stylesheet" href="main.css">
+</head>
+
+<body>
+    <canvas id="draw"></canvas>
+    <div class="zooming">
+        <div class="zoom-in">
+            <img src="assets/plus.svg">
+        </div>
+        <div class="zoom-out">
+            <img src="assets/minus.svg">
+        </div>
+    </div>
+    <div class="tray">
+        <div class="strokes">
+            <img src="assets/stroke1.svg" class="stroke1 stroke active" id="2">
+            <img src="assets/stroke2.svg" class="stroke2 stroke" id="5">
+            <img src="assets/stroke3.svg" class="stroke3 stroke" id="10">
+            <img src="assets/stroke4.svg" class="stroke4 stroke" id="20">
+            <img src="assets/stroke5.svg" class="stroke5 stroke" id="40">
+        </div>
+        <div class="settings">
+            <input type="color" id="colorField">
+            <img src="assets/erasure.svg" id="erasure">
+            <img src="assets/clearCanvas.svg" id="clearCanvas">
+        </div>
+    </div>
+</body>
+
+<script src="script.js"></script>
+
+</html>

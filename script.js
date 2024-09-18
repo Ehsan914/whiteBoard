@@ -88,11 +88,9 @@ function handleStart(e) {
     const touch = e.touches[0];
     const rect = canvas.getBoundingClientRect();
     [lastX, lastY] = [touch.clientX - rect.left, touch.clientY - rect.top];
-
-    // Set the line width based on the erasing state
-    cntx.lineWidth = isErasing ? 50 : 5; // Adjust the width as needed
-    
-    // Set the lineCap and lineJoin to 'round' for smooth lines and joins
+    if(isErasing) {
+        cntx.lineWidth = 50;
+    }
     cntx.lineCap = 'round';
     cntx.lineJoin = 'round';
 }

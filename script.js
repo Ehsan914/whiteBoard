@@ -77,3 +77,12 @@ erasure.addEventListener('click', () => {
     canvas.style.cursor = cursorE;
     isErasing = true;
 });
+
+canvas.addEventListener('touchstart', (e) => {
+    isDrawing = true;
+    [lastX, lastY]= [e.offsetX, e.offsetY];
+});
+canvas.addEventListener('touchmove', draw);
+canvas.addEventListener('touchend', () => {
+    isDrawing = false;
+});

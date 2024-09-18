@@ -104,7 +104,9 @@ function handleEnd(e) {
     isDrawing = false;
 }
 
-function drawTouch(x, y) {
+function drawTouch(x, y) {    
+    cntx.lineJoin = "round";
+    cntx.lineCap = "round";
     cntx.beginPath();
     cntx.moveTo(lastX, lastY);
     cntx.lineTo(x, y);

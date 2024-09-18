@@ -90,32 +90,29 @@ function handleStart(e) {
     [lastX, lastY] = [touch.clientX - rect.left, touch.clientY - rect.top];
 }
 
+function drawTouch(e) {
+    if (!isDrawing) return;
+    console.log(e);
+    cntx.beginPath();
+    cntx.moveTo(lastX, lastY);
+    const touch = e.touches[0];
+    cntx.lineTo(touch.clientX, touch.clientY);
+    cntx.strokeStyle = isErasing ? `white` : `${color.value}`;
+    cntx.stroke();
+    [lastX, lastY]= [touch.clientX, touch.clientY];
+    if(isErasing) {
+        cntx.lineWidth = 50;
+    }
+}
+
 function handleMove(e) {
     if (!isDrawing) return;
     e.preventDefault();
-    const touch = e.touches[0];
-    const rect = canvas.getBoundingClientRect();
-    const x = touch.clientX - rect.left;
-    const y = touch.clientY - rect.top;
-    drawTouch(x, y);
+    drawTouch();
 }
 
 function handleEnd(e) {
     isDrawing = false;
-}
-
-function drawTouch(x, y) {    
-    cntx.lineJoin = "round";
-    cntx.lineCap = "round";
-    cntx.beginPath();
-    cntx.moveTo(lastX, lastY);
-    cntx.lineTo(x, y);
-    cntx.strokeStyle = isErasing ? `white` : `${color.value}`;
-    cntx.stroke();
-    [lastX, lastY] = [x, y];
-    if(isErasing) {
-        cntx.lineWidth = 50;
-    }
 }
 
 function resizeCanvas() {

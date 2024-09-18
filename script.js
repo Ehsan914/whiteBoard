@@ -88,38 +88,37 @@ function handleStart(e) {
     const touch = e.touches[0];
     const rect = canvas.getBoundingClientRect();
     [lastX, lastY] = [touch.clientX - rect.left, touch.clientY - rect.top];
+
+    // Set the line width based on the erasing state
+    cntx.lineWidth = isErasing ? 50 : 5; // Adjust the width as needed
+    
+    // Set the lineCap and lineJoin to 'round' for smooth lines and joins
+    cntx.lineCap = 'round';
+    cntx.lineJoin = 'round';
 }
 
 function drawTouch(e) {
     if (!isDrawing) return;
-    console.log(e);
+    const touch = e.touches[0];
+    const rect = canvas.getBoundingClientRect();
+    const x = touch.clientX - rect.left;
+    const y = touch.clientY - rect.top;
+    
     cntx.beginPath();
     cntx.moveTo(lastX, lastY);
-    const touch = e.touches[0];
-    cntx.lineTo(touch.clientX, touch.clientY);
-    cntx.strokeStyle = isErasing ? `white` : `${color.value}`;
+    cntx.lineTo(x, y);
+    cntx.strokeStyle = isErasing ? 'white' : color.value;
     cntx.stroke();
-    [lastX, lastY]= [touch.clientX, touch.clientY];
-    if(isErasing) {
-        cntx.lineWidth = 50;
-    }
+    
+    [lastX, lastY] = [x, y]; // Update the last position
 }
 
 function handleMove(e) {
     if (!isDrawing) return;
     e.preventDefault();
-    drawTouch();
+    drawTouch(e); // Pass the event to drawTouch
 }
 
 function handleEnd(e) {
     isDrawing = false;
-}
-
-function resizeCanvas() {
-    const pixelRatio = window.devicePixelRatio || 1;
-    canvas.width = window.innerWidth * pixelRatio;
-    canvas.height = window.innerHeight * pixelRatio;
-    canvas.style.width = `${window.innerWidth}px`;
-    canvas.style.height = `${window.innerHeight}px`;
-    cntx.scale(pixelRatio, pixelRatio);
 }

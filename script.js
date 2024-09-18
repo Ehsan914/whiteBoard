@@ -78,11 +78,28 @@ erasure.addEventListener('click', () => {
     isErasing = true;
 });
 
-canvas.addEventListener('touchstart', (e) => {
+canvas.addEventListener('touchstart', handleStart);
+canvas.addEventListener('touchmove', handleMove);
+canvas.addEventListener('touchend', handleEnd);
+
+function handleStart(e) {
+    e.preventDefault();
     isDrawing = true;
-    [lastX, lastY]= [e.offsetX, e.offsetY];
-});
-canvas.addEventListener('touchmove', draw);
-canvas.addEventListener('touchend', () => {
+    const touch = e.touches[0];
+    [lastX, lastY] = [touch.clientX - canvas.offsetLeft, touch.clientY - canvas.offsetTop];
+}
+
+function handleMove(e) {
+    if (!isDrawing) return;
+    e.preventDefault();
+    const touch = e.touches[0];
+    const x = touch.clientX - canvas.offsetLeft;
+    const y = touch.clientY - canvas.offsetTop;
+    draw(x, y);
+    [lastX, lastY] = [x, y];
+}
+
+function handleEnd(e) {
+    e.preventDefault();
     isDrawing = false;
-});
+}

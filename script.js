@@ -20,8 +20,6 @@ resizeCanvas();
 canvas.style.cursor = cursorP;
 
 cntx.lineWidth = 2;
-cntx.lineJoin = "round";
-cntx.lineCap = "round";
 
 let isDrawing = false;
 let isErasing = false;
@@ -57,6 +55,8 @@ function draw(e) {
 }
 
 canvas.addEventListener('mousedown', (e) => {
+    cntx.lineJoin = "round";
+    cntx.lineCap = "round";
     isDrawing = true;
     [lastX, lastY]= [e.offsetX, e.offsetY];
 });

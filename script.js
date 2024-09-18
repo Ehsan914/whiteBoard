@@ -8,8 +8,15 @@ const erasure = document.querySelector('#erasure');
 const cursorP = `url(./assets/pen.png) 0 24, default`;
 const cursorE = `url(./assets/erasure.png) 16 0, default`;
 
-canvas.height = window.innerHeight;
-canvas.width = window.innerWidth;
+window.addEventListener('resize', resizeCanvas);
+
+function resizeCanvas() {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+}
+
+resizeCanvas();
+
 canvas.style.cursor = cursorP;
 
 cntx.lineWidth = 2;
@@ -70,6 +77,3 @@ erasure.addEventListener('click', () => {
     canvas.style.cursor = cursorE;
     isErasing = true;
 });
-
-
-

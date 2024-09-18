@@ -78,28 +78,49 @@ erasure.addEventListener('click', () => {
     isErasing = true;
 });
 
-canvas.addEventListener('touchstart', handleStart);
-canvas.addEventListener('touchmove', handleMove);
+canvas.addEventListener('touchstart', handleStart, { passive: false });
+canvas.addEventListener('touchmove', handleMove, { passive: false });
 canvas.addEventListener('touchend', handleEnd);
 
 function handleStart(e) {
     e.preventDefault();
     isDrawing = true;
     const touch = e.touches[0];
-    [lastX, lastY] = [touch.clientX - canvas.offsetLeft, touch.clientY - canvas.offsetTop];
+    const rect = canvas.getBoundingClientRect();
+    [lastX, lastY] = [touch.clientX - rect.left, touch.clientY - rect.top];
 }
 
 function handleMove(e) {
     if (!isDrawing) return;
     e.preventDefault();
     const touch = e.touches[0];
-    const x = touch.clientX - canvas.offsetLeft;
-    const y = touch.clientY - canvas.offsetTop;
-    draw(x, y);
-    [lastX, lastY] = [x, y];
+    const rect = canvas.getBoundingClientRect();
+    const x = touch.clientX - rect.left;
+    const y = touch.clientY - rect.top;
+    drawTouch(x, y);
 }
 
 function handleEnd(e) {
-    e.preventDefault();
     isDrawing = false;
+}
+
+function drawTouch(x, y) {
+    cntx.beginPath();
+    cntx.moveTo(lastX, lastY);
+    cntx.lineTo(x, y);
+    cntx.strokeStyle = isErasing ? `white` : `${color.value}`;
+    cntx.stroke();
+    [lastX, lastY] = [x, y];
+    if(isErasing) {
+        cntx.lineWidth = 50;
+    }
+}
+
+function resizeCanvas() {
+    const pixelRatio = window.devicePixelRatio || 1;
+    canvas.width = window.innerWidth * pixelRatio;
+    canvas.height = window.innerHeight * pixelRatio;
+    canvas.style.width = `${window.innerWidth}px`;
+    canvas.style.height = `${window.innerHeight}px`;
+    cntx.scale(pixelRatio, pixelRatio);
 }
